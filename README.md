@@ -11,3 +11,20 @@ python3 -m venv .
 . bin/activate
 python3 -m pip install pip --upgrade -r requirements.txt
 ~~~
+
+## Example
+
+The following commands
+
+~~~
+form dual import dual
+x = dual(1,2)
+y = dual(3,4)
+x*y
+~~~
+
+generates the following output
+
+~~~
+<dual:3+10w>
+~~~
