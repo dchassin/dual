@@ -28,16 +28,16 @@ class DualException(Exception):
 class dual:
 
     def __init__(self,
-            x = 0.0,
-            y = 0.0,
-            ):
+                 x=0.0,
+                 y=0.0,
+                ):
         """Construct a dual number
 
         Arguments:
-       
+
         x (dual|float|int|str) - dual to copy, real part, int of real part, or
         string representation
-       
+
         y (float) - indeterminate part
         """
         if type(x) is str:
