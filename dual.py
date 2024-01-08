@@ -142,7 +142,7 @@ class dual:
             other = dual(other)
         return abs(self.x-other.x) <= precision and abs(self.y-other.y) <= precision
 
-    def __ne__(self, otherother):
+    def __ne__(self, other):
         if type(other) in [int, float, str]:
             other = dual(other)
         return abs(self.x-other.x) > precision or abs(self.y-other.y) > precision
