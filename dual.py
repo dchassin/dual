@@ -3,14 +3,16 @@
 # References:
 #
 # [1] https://en.wikipedia.org/wiki/Dual_number
-# [2] https://www.researchgate.net/profile/Farid-Messelmi/publication/264300733_Analysis_of_Dual_Functions/links/53d7c11e0cf2a19eee7fcf1c/Analysis-of-Dual-Functions.pdf
+#
+# [2] https://www.researchgate.net/profile/Farid-Messelmi/publication/264300733_Analysis_of_Dual_Functions/
+#     links/53d7c11e0cf2a19eee7fcf1c/Analysis-of-Dual-Functions.pdf
 #
 
 __version__ = "0.0"
 __author__ = "dchassin@stanford.edu"
 
 from parse import parse
-from math import *
+from math import exp, log, sin, cos, sinh, cosh
 
 indeterminatechar = "w"
 precision = 1e-8
@@ -18,22 +20,24 @@ parseformat = f"{{:g}}{{:+g}}{indeterminatechar}"
 strformat = f"{{self.x}}{{self.y:+}}{indeterminatechar}"
 reprformat = f"<dual:{{:.4g}}{{:+.4g}}{indeterminatechar}>"
 
+
 class DualException(Exception):
     pass
 
+
 class dual:
 
-    def __init__(self, 
-            x = 0.0, 
+    def __init__(self,
+            x = 0.0,
             y = 0.0,
             ):
         """Construct a dual number
 
         Arguments:
-        
+       
         x (dual|float|int|str) - dual to copy, real part, int of real part, or
         string representation
-        
+       
         y (float) - indeterminate part
         """
         if type(x) is str:
@@ -239,6 +243,7 @@ class dual:
         """Logarithm"""
         return dual(log(self.x), self.y/self.x)
 
+
 w = dual(0, 1)
 
 if __name__ == "__main__":
@@ -246,7 +251,7 @@ if __name__ == "__main__":
     import unittest
 
     x = dual(1, 2)
-    y = dual(3, 4) 
+    y = dual(3, 4)
 
     class TestDual(unittest.TestCase):
 
