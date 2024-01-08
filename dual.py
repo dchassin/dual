@@ -23,7 +23,10 @@ class DualException(Exception):
 
 class dual:
 
-    def __init__(self,x=0.0,y=0.0):
+    def __init__(self, 
+            x = 0.0, 
+            y = 0.0,
+            ):
         """Construct a dual number
 
         Arguments:
@@ -34,78 +37,78 @@ class dual:
         y (float) - indeterminate part
         """
         if type(x) is str:
-            r = parse(parseformat,x)
+            r = parse(parseformat, x)
             self.x = r[0]
             self.y = r[1]
         elif type(x) is dual:
             self.x = x.re()
             self.y = x.im()
-        elif type(x) in [int,float] and type(y) in [int,float]:
+        elif type(x) in [int, float] and type(y) in [int, float]:
             self.x = float(x)
             self.y = float(y)
 
     def __str__(self):
-        return strformat.format(self.x,self.y).replace(" ","")
+        return strformat.format(self.x, self.y).replace(" ", "")
 
     def __repr__(self):
-        return reprformat.format(self.x,self.y).replace(" ","")
+        return reprformat.format(self.x, self.y).replace(" ", "")
 
     def __neg__(self):
-        return dual(-self.x,-self.y)
+        return dual(-self.x, -self.y)
 
     def __pos__(self):
-        return dual(abs(self.x),abs(self.y))
+        return dual(abs(self.x), abs(self.y))
 
     def __invert__(self):
         return dual(1) / self
 
-    def __add__(self,other):
+    def __add__(self, other):
         if not type(other) is dual:
             other = dual(other)
-        return dual(self.x+other.x,self.y+other.y)
+        return dual(self.x+other.x, self.y+other.y)
 
-    def __sub__(self,other):
+    def __sub__(self, other):
         if not type(other) is dual:
             other = dual(other)
-        return dual(self.x-other.x,self.y-other.y)
+        return dual(self.x-other.x, self.y-other.y)
 
-    def __mul__(self,other):
+    def __mul__(self, other):
         if not type(other) is dual:
             other = dual(other)
-        return dual(self.x*other.x,self.x*other.y+self.y*other.x)
+        return dual(self.x*other.x, self.x*other.y+self.y*other.x)
 
-    def __truediv__(self,other):
+    def __truediv__(self, other):
         if not type(other) is dual:
             other = dual(other)
-        return dual(self.x/other.x,(self.y*other.x-self.x*other.y)/(other.x*other.x))
+        return dual(self.x/other.x, (self.y*other.x-self.x*other.y)/(other.x*other.x))
 
-    def __pow__(self,n):
+    def __pow__(self, n):
         if not type(n) is int:
             raise DualException("n must be an integer")
         elif n > 1:
-            return dual(self.x**n,n*self.x**(n-1)*self.y)
+            return dual(self.x**n, n*self.x**(n-1)*self.y)
         elif n == 1:
-            return dual(self.x,self.y)
+            return dual(self.x, self.y)
         elif n == 0:
             return dual(1.0)
         else:
             raise DualException("n must be non-negative")
 
-    def __iadd__(self,other):
+    def __iadd__(self, other):
         if not type(other) is dual:
             other = dual(other)
         self.x += other.x
         self.y += other.y
         return self
 
-    def __isub__(self,other):
+    def __isub__(self, other):
         if not type(other) is dual:
             other = dual(other)
         self.x -= other.x
         self.y -= other.y
         return self
 
-    def __imul__(self,other):
+    def __imul__(self, other):
         if not type(other) is dual:
             other = dual(other)
         self.y *= other.x
@@ -113,7 +116,7 @@ class dual:
         self.x *= other.x
         return self
 
-    def __itruediv__(self,other):
+    def __itruediv__(self, other):
         if not type(other) is dual:
             other = dual(other)
         self.y *= other.x
@@ -122,7 +125,7 @@ class dual:
         self.x /= other.x
         return self
 
-    def __ipow__(self,other):
+    def __ipow__(self, other):
         if not type(other) is dual:
             other = dual(other)
         z = dual(self.pow(other))
@@ -130,32 +133,32 @@ class dual:
         self.y = z.y
         return self
 
-    def __eq__(self,other):
-        if type(other) in [int,float,str]:
+    def __eq__(self, other):
+        if type(other) in [int, float, str]:
             other = dual(other)
         return abs(self.x-other.x) <= precision and abs(self.y-other.y) <= precision
 
-    def __ne__(self,otherother):
-        if type(other) in [int,float,str]:
+    def __ne__(self, otherother):
+        if type(other) in [int, float, str]:
             other = dual(other)
         return abs(self.x-other.x) > precision or abs(self.y-other.y) > precision
 
-    def __lt__(self,other):
+    def __lt__(self, other):
         if not type(other) is dual:
             other = dual(other)
         return self.x < other.x
 
-    def __le__(self,other):
+    def __le__(self, other):
         if not type(other) is dual:
             other = dual(other)
         return self.x <= other.x
 
-    def __gt__(self,other):
+    def __gt__(self, other):
         if not type(other) is dual:
             other = dual(other)
         return self.x > other.x
 
-    def __ge__(self,other):
+    def __ge__(self, other):
         if not type(other) is dual:
             other = dual(other)
         return self.x >= other.x
@@ -178,25 +181,25 @@ class dual:
 
     def conj(self):
         """Get the conjugate number"""
-        return dual(self.x,-self.y)
+        return dual(self.x, -self.y)
 
     def exp(self):
         """Exponent"""
         ex = exp(self.x)
-        return dual(ex,self.y*ex)
+        return dual(ex, self.y*ex)
 
-    def pow(self,n):
+    def pow(self, n):
         """Power"""
         c = dual(n).re()
         if c > 0:
             a = self.x
             b = self.y
             if type(n) in [int]:
-                return dual(a**n,n*a**(n-1)*b)
-            elif type(n) in [float,dual,str]:
+                return dual(a**n, n*a**(n-1)*b)
+            elif type(n) in [float, dual, str]:
                 d = dual(n).im()
                 ex = exp(c*log(a))
-                return dual(ex,ex*(c*b/a+d*log(a)))
+                return dual(ex, ex*(c*b/a+d*log(a)))
             else:
                 raise DualException("n must be either int, float, dual, or str")
         elif c == 0:
@@ -210,11 +213,11 @@ class dual:
 
     def sin(self):
         """Sine"""
-        return dual(sin(self.x),self.y*cos(self.x))
+        return dual(sin(self.x), self.y*cos(self.x))
 
     def cos(self):
         """Cosine"""
-        return dual(cos(self.x),-self.y*sin(self.x))
+        return dual(cos(self.x), -self.y*sin(self.x))
 
     def tan(self):
         """Tangent"""
@@ -222,11 +225,11 @@ class dual:
 
     def sinh(self):
         """Hypebolic sine"""
-        return dual(sinh(self.x),self.y*cosh(self.x))
+        return dual(sinh(self.x), self.y*cosh(self.x))
 
     def cosh(self):
         """Hyperbolic cosine"""
-        return dual(cosh(self.x),self.y*sinh(self.x))
+        return dual(cosh(self.x), self.y*sinh(self.x))
 
     def tanh(self):
         """Hyperbolic tangent"""
@@ -234,65 +237,65 @@ class dual:
 
     def log(self):
         """Logarithm"""
-        return dual(log(self.x),self.y/self.x)
+        return dual(log(self.x), self.y/self.x)
 
-w = dual(0,1)
+w = dual(0, 1)
 
 if __name__ == "__main__":
 
     import unittest
 
-    x = dual(1,2)
-    y = dual(3,4) 
+    x = dual(1, 2)
+    y = dual(3, 4) 
 
     class TestDual(unittest.TestCase):
 
         def test_add(self):
-            self.assertEqual(x+y,dual(4,6))
-            self.assertEqual(y+x,dual(4,6))
+            self.assertEqual(x+y, dual(4, 6))
+            self.assertEqual(y+x, dual(4, 6))
 
         def test_sub(self):
-            self.assertEqual(x-y,dual(-2,-2))
-            self.assertEqual(y-x,dual(2,2))
+            self.assertEqual(x-y, dual(-2, -2))
+            self.assertEqual(y-x, dual(2, 2))
 
         def test_mul(self):
-            self.assertEqual(x*y,dual(3,10))
-            self.assertEqual(y*x,dual(3,10))
+            self.assertEqual(x*y, dual(3, 10))
+            self.assertEqual(y*x, dual(3, 10))
 
         def test_div(self):
-            self.assertEqual(x/y,dual(1/3,2/9))
-            self.assertEqual(y/x,dual(3,-2))
+            self.assertEqual(x/y, dual(1/3, 2/9))
+            self.assertEqual(y/x, dual(3, -2))
 
         def test_pow(self):
-            self.assertEqual(x**0,1)
-            self.assertEqual(x**1,x)
-            self.assertEqual(x**2,x*x)
-            self.assertEqual(x**3,x*x*x)
-            self.assertEqual(x.pow(0),1)
-            self.assertEqual(x.pow(1),x)
-            self.assertEqual(x.pow(2),x*x)
-            self.assertEqual(x.pow(3),x*x*x)
-            self.assertEqual(x.pow(y),dual(1,6))
-            self.assertEqual(y.pow(x),dual(3,10.59167373200866))
+            self.assertEqual(x**0, 1)
+            self.assertEqual(x**1, x)
+            self.assertEqual(x**2, x*x)
+            self.assertEqual(x**3, x*x*x)
+            self.assertEqual(x.pow(0), 1)
+            self.assertEqual(x.pow(1), x)
+            self.assertEqual(x.pow(2), x*x)
+            self.assertEqual(x.pow(3), x*x*x)
+            self.assertEqual(x.pow(y), dual(1, 6))
+            self.assertEqual(y.pow(x), dual(3, 10.59167373200866))
 
         def test_exp(self):
-            self.assertEqual(x.log().exp(),x)
-            self.assertEqual(x.exp().log(),x)
+            self.assertEqual(x.log().exp(), x)
+            self.assertEqual(x.exp().log(), x)
 
         def test_trig(self):
-            self.assertEqual((-x).sin(),-(x.sin()))
-            self.assertEqual((-x).cos(),x.cos())
-            self.assertEqual(x.tan(),x.sin()/x.cos())
-            self.assertEqual((x+y).sin(),x.sin()*y.cos()+x.cos()*y.sin())
-            self.assertEqual((x+y).cos(),x.cos()*y.cos()-x.sin()*y.sin())
-            self.assertEqual(x.cos()**2+x.sin()**2,1)
-            self.assertEqual((w*x).cos(),1)
-            self.assertEqual((w*x).sin(),w*x)
+            self.assertEqual((-x).sin(), -(x.sin()))
+            self.assertEqual((-x).cos(), x.cos())
+            self.assertEqual(x.tan(), x.sin()/x.cos())
+            self.assertEqual((x+y).sin(), x.sin()*y.cos()+x.cos()*y.sin())
+            self.assertEqual((x+y).cos(), x.cos()*y.cos()-x.sin()*y.sin())
+            self.assertEqual(x.cos()**2+x.sin()**2, 1)
+            self.assertEqual((w*x).cos(), 1)
+            self.assertEqual((w*x).sin(), w*x)
 
         def test_hyp(self):
-            self.assertEqual(x.sinh(),(x.exp()-(-x).exp())/2.0)
-            self.assertEqual(x.cosh(),(x.exp()+(-x).exp())/2.0)
-            self.assertEqual(x.tanh(),x.sinh()/x.cosh())
-            self.assertEqual(x.cosh()**2-x.sinh()**2,1)
+            self.assertEqual(x.sinh(), (x.exp()-(-x).exp())/2.0)
+            self.assertEqual(x.cosh(), (x.exp()+(-x).exp())/2.0)
+            self.assertEqual(x.tanh(), x.sinh()/x.cosh())
+            self.assertEqual(x.cosh()**2-x.sinh()**2, 1)
 
     unittest.main()
